@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Diabetes Risk Assessment Tool</title>
+  <!-- Use standard TensorFlow.js -->
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@3.18.0/dist/tf.min.js"></script>
+  <!-- Use a newer, more stable version of TFJS TFLite interpreter -->
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-tflite@0.0.1-alpha.8/dist/tf-tflite.min.js"></script>
+  <!-- Font Awesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #6200ea;
+      --primary-light: #9d46ff;
+      --primary-dark: #0a00b6;
+      --secondary: #03dac6;
+      --danger: #cf6679;
+      --warning: #ff9800;
+      --success: #4caf50;
+      --text-dark: #333;
+      --text-light: #f5f5f5;
+      --bg-light: #f9f9fc;
+      --bg-card: #ffffff;
+      --shadow: 0 4px 12px rgba(0,0,0,0.08);
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Roboto', sans-serif;
+      background: var(--bg-light);
+      color: var(--text-dark);
+      line-height: 1.6;
+      padding-bottom: 60px;
+    }
+    
+    h1, h2, h3, h4, h5 {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 600;
+      margin-bottom: 1rem;
+      color: var(--primary-dark);
+    }
+    
+    header {
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: var(--text-light);
+      padding: 2rem 0;
+      text-align: center;
+      margin-bottom: 2rem;
+      box-shadow: var(--shadow);
+    }
+    
+    header h1 {
+      font-size: 2.5rem;
+      color: white;
+      margin-bottom: 0.5rem;
+    }
+    
+    header p {
+      font-size: 1.1rem;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    
+    .container {
+      width: 90%;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    
+    .card {
+      background: var(--bg-card);
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+      padding: 2rem;
+      margin-bottom: 2rem;
+    }
+    
+    .flex-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2rem;
+    }
+    
+    .info-column {
+      flex: 1 1 300px;
+    }
+    
+    .form-column {
+      flex: 1 1 400px;
+    }
+    
+    .input-group {
+      margin-bottom: 1.5rem;
+      position: relative;
+    }
+    
+    label {
+      display: block;
+      font-weight: 500;
+      margin-bottom: 0.5rem;
+      color: var(--primary-dark);
+    }
+    
+    .field-info {
+      font-size: 0.85rem;
+      color: #666;
+      margin-bottom: 0.5rem;
+    }
+    
+    .normal-range {
+      font-size: 0.8rem;
+      color: var(--success);
+      margin-left: 0.5rem;
+    }
+    
+    input[type="number"] {
+      width: 100%;
+      padding: 12px 15px;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      font-size: 1rem;
+      transition: border 0.3s;
+    }
+    
+    input[type="number"]:focus {
+      border-color: var(--primary);
+      outline: none;
+      box-shadow: 0 0 0 2px rgba(98, 0, 234, 0.2);
+    }
+    
+    button {
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 14px 28px;
+      border-radius: 6px;
+      font-size: 1.1rem;
+      font-weight: 500;
+      cursor: pointer;
+      display: block;
+      width: 100%;
+      margin-top: 2rem;
+      transition: background 0.3s;
+    }
+    
+    button:hover {
+      background: var(--primary-dark);
+    }
+    
+    button:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+    }
+    
+    .loading {
+      text-align: center;
+      margin: 1rem 0;
+      color: #666;
+      font-style: italic;
+    }
+    
+    .result {
+      padding: 1.5rem;
+      border-radius: 6px;
+      margin-top: 2rem;
+      text-align: center;
+      display: none;
+    }
+    
+    .result.positive {
+      background-color: rgba(207, 102, 121, 0.1);
+      border: 1px solid var(--danger);
+    }
+    
+    .result.negative {
+      background-color: rgba(76, 175, 80, 0.1);
+      border: 1px solid var(--success);
+    }
+    
+    .result h3 {
+      margin-bottom: 0.5rem;
+      color: inherit;
+    }
+    
+    .accordion {
+      margin-top: 1rem;
+    }
+    
+    .accordion-item {
+      margin-bottom: 0.5rem;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      overflow: hidden;
+    }
+    
+    .accordion-header {
+      background: #f5f5f5;
+      padding: 1rem;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-weight: 500;
+    }
+    
+    .accordion-content {
+      padding: 0 1rem;
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease;
+    }
+    
+    .accordion-content.active {
+      padding: 1rem;
+      max-height: 500px;
+    }
+    
+    .icon-info {
+      color: var(--primary);
+      margin-right: 0.5rem;
+    }
+    
+    .info-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1rem 0;
+    }
+    
+    .info-table th, .info-table td {
+      padding: 0.75rem;
+      border: 1px solid #ddd;
+    }
+    
+    .info-table th {
+      background-color: #f5f5f5;
+    }
+    
+    @media (max-width: 768px) {
+      header h1 {
+        font-size: 2rem;
+      }
+      
+      .card {
+        padding: 1.5rem;
+      }
+    }
+    
+    /* Tooltip styling */
+    .tooltip {
+      position: relative;
+      display: inline-block;
+      cursor: pointer;
+      color: var(--primary);
+    }
+    
+    .tooltip .tooltiptext {
+      visibility: hidden;
+      width: 250px;
+      background-color: #555;
+      color: #fff;
+      text-align: center;
+      border-radius: 6px;
+      padding: 10px;
+      position: absolute;
+      z-index: 1;
+      bottom: 125%;
+      left: 50%;
+      transform: translateX(-50%);
+      opacity: 0;
+      transition: opacity 0.3s;
+      font-size: 0.85rem;
+      font-weight: normal;
+    }
+    
+    .tooltip:hover .tooltiptext {
+      visibility: visible;
+      opacity: 1;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <h1><i class="fas fa-heartbeat"></i> Diabetes Risk Assessment Tool</h1>
+      <p>Early detection of diabetes is crucial for effective management. Use this AI-powered tool to assess your risk based on clinical indicators.</p>
+    </div>
+  </header>
+  
+  <div class="container">
+    <div class="flex-container">
+      <div class="info-column">
+        <div class="card">
+          <h2><i class="fas fa-info-circle"></i> Understanding Diabetes</h2>
+          <p>Diabetes is a chronic condition that affects how your body turns food into energy. It occurs when your body doesn't make enough insulin or can't use it effectively.</p>
+          
+          <div class="accordion">
+            <div class="accordion-item">
+              <div class="accordion-header">
+                Types of Diabetes <i class="fas fa-chevron-down"></i>
+              </div>
+              <div class="accordion-content">
+                <p><strong>Type 1 Diabetes:</strong> The body doesn't produce insulin. Usually diagnosed in children and young adults.</p>
+                <p><strong>Type 2 Diabetes:</strong> The body doesn't use insulin properly. Most common form, often related to lifestyle factors.</p>
+                <p><strong>Gestational Diabetes:</strong> Develops during pregnancy and usually resolves after giving birth.</p>
+              </div>
+            </div>
+            
+            <div class="accordion-item">
+              <div class="accordion-header">
+                Risk Factors <i class="fas fa-chevron-down"></i>
+              </div>
+              <div class="accordion-content">
+                <p>Several factors can increase your risk of developing Type 2 diabetes:</p>
+                <ul>
+                  <li>Overweight or obesity</li>
+                  <li>Age 45 or older</li>
+                  <li>Family history of diabetes</li>
+                  <li>Physical inactivity</li>
+                  <li>History of gestational diabetes</li>
+                  <li>Prediabetes</li>
+                  <li>Race/ethnicity (higher risk among African Americans, Hispanic/Latino Americans, American Indians, and some Asian Americans)</li>
+                </ul>
+              </div>
+            </div>
+            
+            <div class="accordion-item">
+              <div class="accordion-header">
+                Common Symptoms <i class="fas fa-chevron-down"></i>
+              </div>
+              <div class="accordion-content">
+                <p>Diabetes often develops slowly and many people don't notice symptoms. Common signs include:</p>
+                <ul>
+                  <li>Increased thirst and urination</li>
+                  <li>Increased hunger</li>
+                  <li>Fatigue</li>
+                  <li>Blurred vision</li>
+                  <li>Slow-healing sores</li>
+                  <li>Frequent infections</li>
+                  <li>Unexplained weight loss (Type 1)</li>
+                  <li>Tingling or numbness in hands or feet</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="card">
+          <h2><i class="fas fa-chart-line"></i> About This Model</h2>
+          <p>This predictive model uses machine learning techniques trained on the Pima Indians Diabetes Database. It analyzes various health metrics to assess your diabetes risk.</p>
+          <p><strong>Note:</strong> This tool provides an estimate only and should not replace professional medical advice. Always consult with healthcare providers for proper diagnosis and treatment.</p>
+        </div>
+      </div>
+      
+      <div class="form-column">
+        <div class="card">
+          <h2><i class="fas fa-clipboard-list"></i> Enter Your Health Data</h2>
+          <form id="diabetes-form">
+            <div class="input-group">
+              <label for="Pregnancies">
+                Pregnancies 
+                <span class="tooltip"><i class="fas fa-info-circle"></i>
+                  <span class="tooltiptext">Number of times pregnant. More pregnancies can increase risk due to hormonal changes.</span>
+                </span>
+              </label>
+              <div class="field-info">Number of times a person has been pregnant</div>
+              <input type="number" id="Pregnancies" min="0" step="1" required placeholder="e.g., 0 for none">
+            </div>
+            
+            <div class="input-group">
+              <label for="Glucose">
+                Glucose Level 
+                <span class="tooltip"><i class="fas fa-info-circle"></i>
+                  <span class="tooltiptext">Blood glucose level after 2 hours in an oral glucose tolerance test. Higher levels indicate reduced glucose processing ability.</span>
+                </span>
+                <span class="normal-range">Normal: 70-99 mg/dL</span>
+              </label>
+              <div class="field-info">Plasma glucose concentration after 2 hours in an oral glucose tolerance test</div>
+              <input type="number" id="Glucose" min="0" step="1" required placeholder="e.g., 85">
+            </div>
+            
+            <div class="input-group">
+              <label for="BloodPressure">
+                Blood Pressure 
+                <span class="tooltip"><i class="fas fa-info-circle"></i>
+                  <span class="tooltiptext">Diastolic blood pressure (mm Hg). Hypertension often coexists with diabetes and increases complications.</span>
+                </span>
+                <span class="normal-range">Normal: <80 mm Hg</span>
+              </label>
+              <div class="field-info">Diastolic blood pressure (mm Hg)</div>
+              <input type="number" id="BloodPressure" min="0" step="1" required placeholder="e.g., 72">
+            </div>
+            
+            <div class="input-group">
+              <label for="SkinThickness">
+                Skin Thickness 
+                <span class="tooltip"><i class="fas fa-info-circle"></i>
+                  <span class="tooltiptext">Triceps skin fold thickness (mm). Can be an indicator of body fat distribution.</span>
+                </span>
+              </label>
+              <div class="field-info">Triceps skin fold thickness (mm), indicator of fat distribution</div>
+              <input type="number" id="SkinThickness" min="0" step="1" required placeholder="e.g., 25">
+            </div>
+            
+            <div class="input-group">
+              <label for="Insulin">
+                Insulin Level 
+                <span class="tooltip"><i class="fas fa-info-circle"></i>
+                  <span class="tooltiptext">2-Hour serum insulin (mu U/ml). Low or high insulin levels can indicate diabetes or insulin resistance.</span>
+                </span>
+                <span class="normal-range">Normal: 16-166 mu U/ml</span>
+              </label>
+              <div class="field-info">2-Hour serum insulin (mu U/ml)</div>
+              <input type="number" id="Insulin" min="0" step="1" required placeholder="e.g., 94">
+            </div>
+            
+            <div class="input-group">
+              <label for="BMI">
+                BMI 
+                <span class="tooltip"><i class="fas fa-info-circle"></i>
+                  <span class="tooltiptext">Body Mass Index (weight in kg/(height in m)²). Higher BMI is strongly associated with Type 2 diabetes.</span>
+                </span>
+                <span class="normal-range">Normal: 18.5-24.9</span>
+              </label>
+              <div class="field-info">Body Mass Index (weight in kg/(height in m)²)</div>
+              <input type="number" id="BMI" min="0" step="0.1" required placeholder="e.g., 23.1">
+            </div>
+            
+            <div class="input-group">
+              <label for="DiabetesPedigreeFunction">
+                Diabetes Pedigree Function 
+                <span class="tooltip"><i class="fas fa-info-circle"></i>
+                  <span class="tooltiptext">Scores diabetes genetic influence based on family history. Higher values indicate stronger genetic predisposition.</span>
+                </span>
+              </label>
+              <div class="field-info">Scores genetic influence of diabetes based on family history</div>
+              <input type="number" id="DiabetesPedigreeFunction" min="0" step="0.001" required placeholder="e.g., 0.3">
+            </div>
+            
+            <div class="input-group">
+              <label for="Age">
+                Age 
+                <span class="tooltip"><i class="fas fa-info-circle"></i>
+                  <span class="tooltiptext">Age in years. Diabetes risk increases with age, especially after 45.</span>
+                </span>
+              </label>
+              <div class="field-info">Age in years</div>
+              <input type="number" id="Age" min="0" step="1" required placeholder="e.g., 35">
+            </div>
+            
+            <button type="submit" id="predict-btn" disabled>Analyze Risk</button>
+          </form>
+          <div class="loading" id="loading-msg">Loading AI model... Please wait</div>
+          <div class="result" id="result"></div>
+        </div>
+        
+        <div class="card">
+          <h2><i class="fas fa-table"></i> Key Value Ranges</h2>
+          <table class="info-table">
+            <tr>
+              <th>Factor</th>
+              <th>Low Risk</th>
+              <th>Moderate Risk</th>
+              <th>High Risk</th>
+            </tr>
+            <tr>
+              <td>Glucose (mg/dL)</td>
+              <td>&lt;100</td>
+              <td>100-125</td>
+              <td>&gt;125</td>
+            </tr>
+            <tr>
+              <td>BMI</td>
+              <td>18.5-24.9</td>
+              <td>25-29.9</td>
+              <td>&gt;30</td>
+            </tr>
+            <tr>
+              <td>Blood Pressure (mm Hg)</td>
+              <td>&lt;80</td>
+              <td>80-89</td>
+              <td>&gt;90</td>
+            </tr>
+            <tr>
+              <td>Age (years)</td>
+              <td>&lt;40</td>
+              <td>40-60</td>
+              <td>&gt;60</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <script>
+    // Handle accordion functionality
+    document.querySelectorAll('.accordion-header').forEach(header => {
+      header.addEventListener('click', function() {
+        const content = this.nextElementSibling;
+        content.classList.toggle('active');
+        const icon = this.querySelector('i');
+        icon.classList.toggle('fa-chevron-down');
+        icon.classList.toggle('fa-chevron-up');
+      });
+    });
+    
+    // TensorFlow.js TFLite model loading and prediction
+    let tfliteModel = null;
+    const modelUrl = "diabetes_firebase_model.tflite"; // Place model in same folder
+
+    // Load TFLite model
+    async function loadModel() {
+      try {
+        // Debug information to check what's available
+        console.log("TF object:", typeof tf);
+        console.log("tflite object:", typeof tflite);
+        
+        // The TFLite library exposes a global 'tflite' object, not tfjs_tflite
+        if (typeof tflite === 'undefined') {
+          console.error("TFLite not found in global scope");
+          document.getElementById("loading-msg").textContent = "Error: TFLite library not available. Check console for details.";
+          return;
+        }
+        
+        // Use the correct method to load TFLite models
+        tfliteModel = await tflite.loadTFLiteModel(modelUrl);
+        document.getElementById("loading-msg").textContent = "Model loaded! Enter your health data and click 'Analyze Risk'";
+        document.getElementById("predict-btn").disabled = false;
+      } catch (e) {
+        console.error("TFLite model loading error:", e);
+        document.getElementById("loading-msg").textContent = "Failed to load model: " + e.message;
+      }
+    }
+
+    // Wait a moment for libraries to load
+    setTimeout(() => {
+      if (typeof tf !== 'undefined') {
+        console.log("TensorFlow.js loaded successfully");
+        loadModel();
+      } else {
+        console.error("TensorFlow.js not loaded");
+        document.getElementById("loading-msg").textContent = "Error: TensorFlow.js not loaded";
+      }
+    }, 500);
+
+    // Feature order must match model input
+    const featureOrder = [
+      "Pregnancies", "Glucose", "BloodPressure", "SkinThickness",
+      "Insulin", "BMI", "DiabetesPedigreeFunction", "Age"
+    ];
+
+    document.getElementById("diabetes-form").addEventListener("submit", async function(e) {
+      e.preventDefault();
+      if (!tfliteModel) return;
+
+      // Collect input values for original features
+      const inputArr = featureOrder.map(id => parseFloat(document.getElementById(id).value));
+      
+      // Generate the categorical features based on the input values
+      // These match the feature engineering in the notebook
+      const bmi = inputArr[5]; // BMI value
+      const insulin = inputArr[4]; // Insulin value
+      const glucose = inputArr[1]; // Glucose value
+      
+      // BMI categories (match notebook categories)
+      const bmiObesity1 = bmi > 29.9 && bmi <= 34.9 ? 1 : 0;
+      const bmiObesity2 = bmi > 34.9 && bmi <= 39.9 ? 1 : 0;
+      const bmiObesity3 = bmi > 39.9 ? 1 : 0;
+      const bmiOverweight = bmi > 24.9 && bmi <= 29.9 ? 1 : 0;
+      const bmiUnderweight = bmi < 18.5 ? 1 : 0;
+      
+      // Insulin categories (match notebook definition)
+      const insulinNormal = insulin >= 16 && insulin <= 166 ? 1 : 0;
+      
+      // Glucose categories (match notebook categories)
+      const glucoseLow = glucose <= 70 ? 1 : 0;
+      const glucoseNormal = glucose > 70 && glucose <= 99 ? 1 : 0;
+      const glucoseOverweight = glucose > 99 && glucose <= 126 ? 1 : 0;
+      const glucoseSecret = glucose > 126 ? 1 : 0;
+      
+      // Combine original features and categorical features
+      const fullInputArr = [
+        ...inputArr,
+        bmiObesity1, bmiObesity2, bmiObesity3, bmiOverweight, bmiUnderweight,
+        insulinNormal, glucoseLow, glucoseNormal, glucoseOverweight, glucoseSecret
+      ];
+      
+      console.log("Full input tensor shape:", [1, fullInputArr.length]);
+      console.log("Input values:", fullInputArr);
+      
+      // Model expects shape [1, 18] (8 original + 10 categorical features)
+      const inputTensor = tf.tensor2d([fullInputArr], [1, 18], "float32");
+
+      // Show loading message
+      document.getElementById("loading-msg").textContent = "Analyzing your data...";
+      document.getElementById("loading-msg").style.display = "block";
+      document.getElementById("result").style.display = "none";
+      
+      // Run inference
+      let outputTensor;
+      try {
+        outputTensor = tfliteModel.predict(inputTensor);
+        const prob = outputTensor.dataSync()[0];
+        const outcome = prob > 0.5 ? "High Risk" : "Low Risk";
+        
+        // Display result with appropriate styling
+        const resultElement = document.getElementById("result");
+        resultElement.innerHTML = `
+          <h3>${outcome} of Diabetes</h3>
+          <p>Probability: ${(prob*100).toFixed(1)}%</p>
+          <p style="margin-top: 1rem; font-size: 0.9rem;">
+            ${prob > 0.5 ? 
+              "The analysis suggests you may have a higher risk of diabetes. Consider consulting with a healthcare provider for further evaluation." : 
+              "The analysis suggests a lower risk of diabetes. Continue to maintain a healthy lifestyle to minimize risk factors."}
+          </p>
+          ${prob > 0.3 ? 
+            `<p style="margin-top: 1rem; font-style: italic; font-size: 0.9rem;">
+              Key risk factors in your profile: 
+              ${glucose > 125 ? "<strong>Elevated glucose</strong>, " : ""}
+              ${bmi > 30 ? "<strong>High BMI</strong>, " : ""}
+              ${insulin < 16 || insulin > 166 ? "<strong>Abnormal insulin</strong>, " : ""}
+              ${parseFloat(document.getElementById("Age").value) > 45 ? "<strong>Age</strong>, " : ""}
+              ${parseFloat(document.getElementById("DiabetesPedigreeFunction").value) > 0.5 ? "<strong>Family history</strong>" : ""}
+            </p>` : ""}
+        `;
+        
+        // Add appropriate class for styling
+        resultElement.className = "result " + (prob > 0.5 ? "positive" : "negative");
+        resultElement.style.display = "block";
+        
+        // Hide loading
+        document.getElementById("loading-msg").style.display = "none";
+        
+        // Clean up tensors
+        outputTensor.dispose();
+        inputTensor.dispose();
+      } catch (err) {
+        console.error("Prediction error details:", err);
+        document.getElementById("result").innerHTML = `<p>Error during analysis: ${err}</p>`;
+        document.getElementById("result").style.display = "block";
+        document.getElementById("loading-msg").style.display = "none";
+      }
+    });
+  </script>
+</body>
+</html>
