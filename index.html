@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,7 +12,9 @@
   <!-- Font Awesome for icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
   <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Montserrat:wght@400;500;600;700&display=swap"
+    rel="stylesheet">
   <style>
     :root {
       --primary: #6200ea;
@@ -25,15 +28,15 @@
       --text-light: #f5f5f5;
       --bg-light: #f9f9fc;
       --bg-card: #ffffff;
-      --shadow: 0 4px 12px rgba(0,0,0,0.08);
+      --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
     }
-    
+
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
     }
-    
+
     body {
       font-family: 'Roboto', sans-serif;
       background: var(--bg-light);
@@ -41,14 +44,18 @@
       line-height: 1.6;
       padding-bottom: 60px;
     }
-    
-    h1, h2, h3, h4, h5 {
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5 {
       font-family: 'Montserrat', sans-serif;
       font-weight: 600;
       margin-bottom: 1rem;
       color: var(--primary-dark);
     }
-    
+
     header {
       background: linear-gradient(135deg, var(--primary), var(--primary-dark));
       color: var(--text-light);
@@ -57,25 +64,25 @@
       margin-bottom: 2rem;
       box-shadow: var(--shadow);
     }
-    
+
     header h1 {
       font-size: 2.5rem;
       color: white;
       margin-bottom: 0.5rem;
     }
-    
+
     header p {
       font-size: 1.1rem;
       max-width: 800px;
       margin: 0 auto;
     }
-    
+
     .container {
       width: 90%;
       max-width: 1200px;
       margin: 0 auto;
     }
-    
+
     .card {
       background: var(--bg-card);
       border-radius: 8px;
@@ -83,45 +90,45 @@
       padding: 2rem;
       margin-bottom: 2rem;
     }
-    
+
     .flex-container {
       display: flex;
       flex-wrap: wrap;
       gap: 2rem;
     }
-    
+
     .info-column {
       flex: 1 1 300px;
     }
-    
+
     .form-column {
       flex: 1 1 400px;
     }
-    
+
     .input-group {
       margin-bottom: 1.5rem;
       position: relative;
     }
-    
+
     label {
       display: block;
       font-weight: 500;
       margin-bottom: 0.5rem;
       color: var(--primary-dark);
     }
-    
+
     .field-info {
       font-size: 0.85rem;
       color: #666;
       margin-bottom: 0.5rem;
     }
-    
+
     .normal-range {
       font-size: 0.8rem;
       color: var(--success);
       margin-left: 0.5rem;
     }
-    
+
     input[type="number"] {
       width: 100%;
       padding: 12px 15px;
@@ -130,13 +137,13 @@
       font-size: 1rem;
       transition: border 0.3s;
     }
-    
+
     input[type="number"]:focus {
       border-color: var(--primary);
       outline: none;
       box-shadow: 0 0 0 2px rgba(98, 0, 234, 0.2);
     }
-    
+
     button {
       background: var(--primary);
       color: white;
@@ -151,23 +158,23 @@
       margin-top: 2rem;
       transition: background 0.3s;
     }
-    
+
     button:hover {
       background: var(--primary-dark);
     }
-    
+
     button:disabled {
       background: #ccc;
       cursor: not-allowed;
     }
-    
+
     .loading {
       text-align: center;
       margin: 1rem 0;
       color: #666;
       font-style: italic;
     }
-    
+
     .result {
       padding: 1.5rem;
       border-radius: 6px;
@@ -175,33 +182,33 @@
       text-align: center;
       display: none;
     }
-    
+
     .result.positive {
       background-color: rgba(207, 102, 121, 0.1);
       border: 1px solid var(--danger);
     }
-    
+
     .result.negative {
       background-color: rgba(76, 175, 80, 0.1);
       border: 1px solid var(--success);
     }
-    
+
     .result h3 {
       margin-bottom: 0.5rem;
       color: inherit;
     }
-    
+
     .accordion {
       margin-top: 1rem;
     }
-    
+
     .accordion-item {
       margin-bottom: 0.5rem;
       border: 1px solid #ddd;
       border-radius: 6px;
       overflow: hidden;
     }
-    
+
     .accordion-header {
       background: #f5f5f5;
       padding: 1rem;
@@ -211,49 +218,74 @@
       align-items: center;
       font-weight: 500;
     }
-    
+
     .accordion-content {
       padding: 0 1rem;
       max-height: 0;
       overflow: hidden;
       transition: max-height 0.3s ease;
     }
-    
+
     .accordion-content.active {
       padding: 1rem;
       max-height: 500px;
     }
-    
+
     .icon-info {
       color: var(--primary);
       margin-right: 0.5rem;
     }
-    
+
     .info-table {
       width: 100%;
       border-collapse: collapse;
       margin: 1rem 0;
     }
-    
-    .info-table th, .info-table td {
+
+    .info-table th,
+    .info-table td {
       padding: 0.75rem;
       border: 1px solid #ddd;
     }
-    
+
     .info-table th {
       background-color: #f5f5f5;
     }
-    
+
+    /* Responsive table wrapper */
+    .responsive-table {
+      width: 100%;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      margin-bottom: 1.2rem;
+    }
+
+    .responsive-table .info-table th,
+    .responsive-table .info-table td {
+      white-space: nowrap;
+    }
+
     @media (max-width: 768px) {
       header h1 {
         font-size: 2rem;
       }
-      
+
       .card {
         padding: 1.5rem;
       }
+
+      .responsive-table {
+        margin: 0 -1rem 1.2rem -1rem;
+      }
+
+      .responsive-table .info-table th,
+      .responsive-table .info-table td {
+        font-size: 0.95em;
+        padding: 0.5rem;
+        white-space: nowrap;
+      }
     }
-    
+
     /* Tooltip styling */
     .tooltip {
       position: relative;
@@ -261,7 +293,7 @@
       cursor: pointer;
       color: var(--primary);
     }
-    
+
     .tooltip .tooltiptext {
       visibility: hidden;
       width: 250px;
@@ -280,40 +312,46 @@
       font-size: 0.85rem;
       font-weight: normal;
     }
-    
+
     .tooltip:hover .tooltiptext {
       visibility: visible;
       opacity: 1;
     }
   </style>
 </head>
+
 <body>
   <header>
     <div class="container">
       <h1><i class="fas fa-heartbeat"></i> Diabetes Risk Assessment Tool</h1>
-      <p>Early detection of diabetes is crucial for effective management. Use this AI-powered tool to assess your risk based on clinical indicators.</p>
+      <p>Early detection of diabetes is crucial for effective management. Use this AI-powered tool to assess your risk
+        based on clinical indicators.</p>
     </div>
   </header>
-  
+
   <div class="container">
     <div class="flex-container">
       <div class="info-column">
         <div class="card">
           <h2><i class="fas fa-info-circle"></i> Understanding Diabetes</h2>
-          <p>Diabetes is a chronic condition that affects how your body turns food into energy. It occurs when your body doesn't make enough insulin or can't use it effectively.</p>
-          
+          <p>Diabetes is a chronic condition that affects how your body turns food into energy. It occurs when your body
+            doesn't make enough insulin or can't use it effectively.</p>
+
           <div class="accordion">
             <div class="accordion-item">
               <div class="accordion-header">
                 Types of Diabetes <i class="fas fa-chevron-down"></i>
               </div>
               <div class="accordion-content">
-                <p><strong>Type 1 Diabetes:</strong> The body doesn't produce insulin. Usually diagnosed in children and young adults.</p>
-                <p><strong>Type 2 Diabetes:</strong> The body doesn't use insulin properly. Most common form, often related to lifestyle factors.</p>
-                <p><strong>Gestational Diabetes:</strong> Develops during pregnancy and usually resolves after giving birth.</p>
+                <p><strong>Type 1 Diabetes:</strong> The body doesn't produce insulin. Usually diagnosed in children and
+                  young adults.</p>
+                <p><strong>Type 2 Diabetes:</strong> The body doesn't use insulin properly. Most common form, often
+                  related to lifestyle factors.</p>
+                <p><strong>Gestational Diabetes:</strong> Develops during pregnancy and usually resolves after giving
+                  birth.</p>
               </div>
             </div>
-            
+
             <div class="accordion-item">
               <div class="accordion-header">
                 Risk Factors <i class="fas fa-chevron-down"></i>
@@ -327,11 +365,12 @@
                   <li>Physical inactivity</li>
                   <li>History of gestational diabetes</li>
                   <li>Prediabetes</li>
-                  <li>Race/ethnicity (higher risk among African Americans, Hispanic/Latino Americans, American Indians, and some Asian Americans)</li>
+                  <li>Race/ethnicity (higher risk among African Americans, Hispanic/Latino Americans, American Indians,
+                    and some Asian Americans)</li>
                 </ul>
               </div>
             </div>
-            
+
             <div class="accordion-item">
               <div class="accordion-header">
                 Common Symptoms <i class="fas fa-chevron-down"></i>
@@ -352,102 +391,147 @@
             </div>
           </div>
         </div>
-        
+
         <div class="card">
           <h2><i class="fas fa-chart-line"></i> About This Model</h2>
-          <p>This predictive model uses machine learning techniques trained on the Pima Indians Diabetes Database. It analyzes various health metrics to assess your diabetes risk.</p>
-          <p><strong>Note:</strong> This tool provides an estimate only and should not replace professional medical advice. Always consult with healthcare providers for proper diagnosis and treatment.</p>
+          <p>This predictive model uses machine learning techniques trained on the Pima Indians Diabetes Database. It
+            analyzes various health metrics to assess your diabetes risk.</p>
+          <p><strong>Note:</strong> This tool provides an estimate only and should not replace professional medical
+            advice. Always consult with healthcare providers for proper diagnosis and treatment.</p>
+        </div>
+        <!-- Diabetes Pedigree Function Calculator Tool -->
+
+        <div class="card" style="background: #f6fafd; margin-bottom: 2rem;">
+          <h2 style="color: var(--primary-dark); margin-bottom: 1rem;">
+            <i class="fas fa-calculator"></i> Diabetes Pedigree Function (DPF) Calculator
+          </h2>
+          <form id="dpf-form" style="margin-bottom: 1.2rem;">
+            <div style="display: flex; flex-wrap: wrap; gap: 1.5rem;">
+              <div style="flex: 1 1 200px;">
+                <label for="dpf-relatives" style="font-weight: 500;">Number of close relatives with diabetes</label>
+                <input type="number" id="dpf-relatives" min="0" step="1" value="0"
+                  style="width: 100%; padding: 8px; border-radius: 5px; border: 1px solid #ccc;">
+              </div>
+              <div style="flex: 1 1 200px;">
+                <label for="dpf-parent" style="font-weight: 500;">Any parent with diabetes?</label>
+                <select id="dpf-parent" style="width: 100%; padding: 8px; border-radius: 5px; border: 1px solid #ccc;">
+                  <option value="0">No</option>
+                  <option value="1">Yes</option>
+                </select>
+              </div>
+              <div style="flex: 1 1 200px;">
+                <label for="dpf-age" style="font-weight: 500;">Youngest age at diagnosis (in family)</label>
+                <input type="number" id="dpf-age" min="0" step="1" value="0"
+                  style="width: 100%; padding: 8px; border-radius: 5px; border: 1px solid #ccc;">
+              </div>
+            </div>
+            <button type="button" id="dpf-calc-btn"
+              style="margin-top: 1.2rem; background: var(--primary); color: #fff; border: none; border-radius: 5px; padding: 10px 22px; font-size: 1rem; cursor: pointer;">Calculate
+              DPF</button>
+          </form>
+          <div id="dpf-result" style="font-size: 1.08rem; color: var(--primary-dark); font-weight: 500;"></div>
+          <div style="font-size: 0.96rem; color: #555; margin-top: 0.7rem;">
+            <strong>Note:</strong> This tool provides an approximate DPF value based on family history. The actual DPF
+            formula used in research is more complex, but this gives a practical estimate for personal use.
+          </div>
         </div>
       </div>
-      
+
       <div class="form-column">
         <div class="card">
           <h2><i class="fas fa-clipboard-list"></i> Enter Your Health Data</h2>
           <form id="diabetes-form">
             <div class="input-group">
               <label for="Pregnancies">
-                Pregnancies 
+                Pregnancies
                 <span class="tooltip"><i class="fas fa-info-circle"></i>
-                  <span class="tooltiptext">Number of times pregnant. More pregnancies can increase risk due to hormonal changes.</span>
+                  <span class="tooltiptext">Number of times pregnant. More pregnancies can increase risk due to hormonal
+                    changes.</span>
                 </span>
               </label>
               <div class="field-info">Number of times a person has been pregnant</div>
               <input type="number" id="Pregnancies" min="0" step="1" required placeholder="e.g., 0 for none">
             </div>
-            
+
             <div class="input-group">
               <label for="Glucose">
-                Glucose Level 
+                Glucose Level
                 <span class="tooltip"><i class="fas fa-info-circle"></i>
-                  <span class="tooltiptext">Blood glucose level after 2 hours in an oral glucose tolerance test. Higher levels indicate reduced glucose processing ability.</span>
+                  <span class="tooltiptext">Blood glucose level after 2 hours in an oral glucose tolerance test. Higher
+                    levels indicate reduced glucose processing ability.</span>
                 </span>
                 <span class="normal-range">Normal: 70-99 mg/dL</span>
               </label>
               <div class="field-info">Plasma glucose concentration after 2 hours in an oral glucose tolerance test</div>
               <input type="number" id="Glucose" min="0" step="1" required placeholder="e.g., 85">
             </div>
-            
+
             <div class="input-group">
               <label for="BloodPressure">
-                Blood Pressure 
+                Blood Pressure
                 <span class="tooltip"><i class="fas fa-info-circle"></i>
-                  <span class="tooltiptext">Diastolic blood pressure (mm Hg). Hypertension often coexists with diabetes and increases complications.</span>
+                  <span class="tooltiptext">Diastolic blood pressure (mm Hg). Hypertension often coexists with diabetes
+                    and increases complications.</span>
                 </span>
-                <span class="normal-range">Normal: <80 mm Hg</span>
+                <span class="normal-range">Normal: &lt; 80 mm Hg</span>
               </label>
               <div class="field-info">Diastolic blood pressure (mm Hg)</div>
               <input type="number" id="BloodPressure" min="0" step="1" required placeholder="e.g., 72">
             </div>
-            
+
             <div class="input-group">
               <label for="SkinThickness">
-                Skin Thickness 
+                Skin Thickness
                 <span class="tooltip"><i class="fas fa-info-circle"></i>
-                  <span class="tooltiptext">Triceps skin fold thickness (mm). Can be an indicator of body fat distribution.</span>
+                  <span class="tooltiptext">Triceps skin fold thickness (mm). Can be an indicator of body fat
+                    distribution.</span>
                 </span>
               </label>
               <div class="field-info">Triceps skin fold thickness (mm), indicator of fat distribution</div>
               <input type="number" id="SkinThickness" min="0" step="1" required placeholder="e.g., 25">
             </div>
-            
+
             <div class="input-group">
               <label for="Insulin">
-                Insulin Level 
+                Insulin Level
                 <span class="tooltip"><i class="fas fa-info-circle"></i>
-                  <span class="tooltiptext">2-Hour serum insulin (mu U/ml). Low or high insulin levels can indicate diabetes or insulin resistance.</span>
+                  <span class="tooltiptext">2-Hour serum insulin (mu U/ml). Low or high insulin levels can indicate
+                    diabetes or insulin resistance.</span>
                 </span>
                 <span class="normal-range">Normal: 16-166 mu U/ml</span>
               </label>
               <div class="field-info">2-Hour serum insulin (mu U/ml)</div>
               <input type="number" id="Insulin" min="0" step="1" required placeholder="e.g., 94">
             </div>
-            
+
             <div class="input-group">
               <label for="BMI">
-                BMI 
+                BMI
                 <span class="tooltip"><i class="fas fa-info-circle"></i>
-                  <span class="tooltiptext">Body Mass Index (weight in kg/(height in m)²). Higher BMI is strongly associated with Type 2 diabetes.</span>
+                  <span class="tooltiptext">Body Mass Index (weight in kg/(height in m)²). Higher BMI is strongly
+                    associated with Type 2 diabetes.</span>
                 </span>
                 <span class="normal-range">Normal: 18.5-24.9</span>
               </label>
               <div class="field-info">Body Mass Index (weight in kg/(height in m)²)</div>
               <input type="number" id="BMI" min="0" step="0.1" required placeholder="e.g., 23.1">
             </div>
-            
+
             <div class="input-group">
               <label for="DiabetesPedigreeFunction">
-                Diabetes Pedigree Function 
+                Diabetes Pedigree Function
                 <span class="tooltip"><i class="fas fa-info-circle"></i>
-                  <span class="tooltiptext">Scores diabetes genetic influence based on family history. Higher values indicate stronger genetic predisposition.</span>
+                  <span class="tooltiptext">Scores diabetes genetic influence based on family history. Higher values
+                    indicate stronger genetic predisposition.</span>
                 </span>
               </label>
               <div class="field-info">Scores genetic influence of diabetes based on family history</div>
               <input type="number" id="DiabetesPedigreeFunction" min="0" step="0.001" required placeholder="e.g., 0.3">
             </div>
-            
+
             <div class="input-group">
               <label for="Age">
-                Age 
+                Age
                 <span class="tooltip"><i class="fas fa-info-circle"></i>
                   <span class="tooltiptext">Age in years. Diabetes risk increases with age, especially after 45.</span>
                 </span>
@@ -455,13 +539,13 @@
               <div class="field-info">Age in years</div>
               <input type="number" id="Age" min="0" step="1" required placeholder="e.g., 35">
             </div>
-            
+
             <button type="submit" id="predict-btn" disabled>Analyze Risk</button>
           </form>
           <div class="loading" id="loading-msg">Loading AI model... Please wait</div>
           <div class="result" id="result"></div>
         </div>
-        
+
         <div class="card">
           <h2><i class="fas fa-table"></i> Key Value Ranges</h2>
           <table class="info-table">
@@ -500,7 +584,7 @@
       </div>
     </div>
   </div>
-  
+
   <!-- New Contributors Footer -->
   <footer class="footer">
     <div class="container">
@@ -508,7 +592,8 @@
         <h2 style="color: var(--primary-dark); margin-bottom: 1.5rem;">
           <i class="fas fa-users"></i> Project Contributors & Acknowledgements
         </h2>
-        <div class="contributors-grid" style="display: flex; flex-wrap:wrap; gap: 2rem; justify-content: space-between;">
+        <div class="contributors-grid"
+          style="display: flex; flex-wrap:wrap; gap: 2rem; justify-content: space-between;">
           <div class="contributor" style="flex: 1 1 200px; display: flex; align-items: center; gap: 1rem;">
             <div class="contributor-avatar" style="font-size: 2.5rem; color: var(--primary);">
               <i class="fas fa-user-circle"></i>
@@ -558,7 +643,8 @@
           </p>
         </div>
         <p class="project-info" style="margin-top: 1.5rem; font-size: 1rem; color: #444;">
-          This project was developed as part of the Machine Learning course at <strong>ATMA RAM SANTAN DHARMA COLLEGE, DU</strong>.
+          This project was developed as part of the Machine Learning course at <strong>ATMA RAM SANTAN DHARMA COLLEGE,
+            DU</strong>.
         </p>
       </div>
 
@@ -567,109 +653,129 @@
         <h2 style="color: var(--primary-dark); margin-bottom: 1rem;">
           <i class="fas fa-lightbulb"></i> How Each Factor Contributes & Ways to Reduce Your Risk
         </h2>
-        <table class="info-table" style="margin-bottom: 1.5rem;">
-          <tr>
-            <th>Factor</th>
-            <th>Contribution to Diabetes Risk</th>
-            <th>How to Reduce Risk</th>
-          </tr>
-          <tr>
-            <td><strong>Glucose</strong></td>
-            <td>High blood glucose is the most direct indicator of diabetes risk. Persistent elevation signals impaired insulin function.</td>
-            <td>
-              <ul style="padding-left: 1.2em;">
-                <li>Limit sugar and refined carbs</li>
-                <li>Exercise regularly</li>
-                <li>Monitor blood sugar</li>
-              </ul>
-            </td>
-          </tr>
-          <tr>
-            <td><strong>BMI</strong></td>
-            <td>Higher BMI (overweight/obesity) increases insulin resistance, making it harder for the body to regulate blood sugar.</td>
-            <td>
-              <ul style="padding-left: 1.2em;">
-                <li>Adopt a balanced, calorie-controlled diet</li>
-                <li>Increase physical activity</li>
-                <li>Set gradual weight loss goals</li>
-              </ul>
-            </td>
-          </tr>
-          <tr>
-            <td><strong>Blood Pressure</strong></td>
-            <td>High blood pressure often coexists with diabetes and can worsen complications by damaging blood vessels.</td>
-            <td>
-              <ul style="padding-left: 1.2em;">
-                <li>Reduce salt intake</li>
-                <li>Manage stress</li>
-                <li>Follow prescribed medications</li>
-              </ul>
-            </td>
-          </tr>
-          <tr>
-            <td><strong>Age</strong></td>
-            <td>Risk increases with age, especially after 45, due to metabolic changes and cumulative lifestyle factors.</td>
-            <td>
-              <ul style="padding-left: 1.2em;">
-                <li>Stay active as you age</li>
-                <li>Get regular health checkups</li>
-                <li>Maintain a healthy diet</li>
-              </ul>
-            </td>
-          </tr>
-          <tr>
-            <td><strong>Pregnancies</strong></td>
-            <td>Multiple pregnancies can increase risk due to hormonal changes and gestational diabetes history.</td>
-            <td>
-              <ul style="padding-left: 1.2em;">
-                <li>Monitor glucose during/after pregnancy</li>
-                <li>Maintain healthy weight post-pregnancy</li>
-              </ul>
-            </td>
-          </tr>
-          <tr>
-            <td><strong>Insulin</strong></td>
-            <td>Abnormal insulin levels indicate issues with insulin production or resistance, both key in diabetes development.</td>
-            <td>
-              <ul style="padding-left: 1.2em;">
-                <li>Follow medical advice for insulin management</li>
-                <li>Adopt a healthy lifestyle</li>
-              </ul>
-            </td>
-          </tr>
-          <tr>
-            <td><strong>Diabetes Pedigree Function</strong></td>
-            <td>Reflects genetic/family history. A higher value means a stronger inherited risk.</td>
-            <td>
-              <ul style="padding-left: 1.2em;">
-                <li>Inform your doctor about family history</li>
-                <li>Be proactive with screenings</li>
-                <li>Adopt preventive lifestyle habits</li>
-              </ul>
-            </td>
-          </tr>
-          <tr>
-            <td><strong>Skin Thickness</strong></td>
-            <td>Higher skinfold thickness can indicate increased body fat, which is linked to insulin resistance.</td>
-            <td>
-              <ul style="padding-left: 1.2em;">
-                <li>Maintain a healthy body composition</li>
-                <li>Engage in regular exercise</li>
-              </ul>
-            </td>
-          </tr>
-        </table>
+        <div class="responsive-table">
+          <table class="info-table" style="margin-bottom: 1.5rem;">
+            <tr>
+              <th>Factor</th>
+              <th>Contribution to Diabetes Risk</th>
+              <th>How to Reduce Risk</th>
+            </tr>
+            <tr>
+              <td><strong>Glucose</strong></td>
+              <td>High blood glucose is the most direct indicator of diabetes risk. Persistent elevation signals
+                impaired insulin function.</td>
+              <td>
+                <ul style="padding-left: 1.2em;">
+                  <li>Limit sugar and refined carbs</li>
+                  <li>Exercise regularly</li>
+                  <li>Monitor blood sugar</li>
+                </ul>
+              </td>
+            </tr>
+            <tr>
+              <td><strong>BMI</strong></td>
+              <td>Higher BMI (overweight/obesity) increases insulin resistance, making it harder for the body to
+                regulate blood sugar.</td>
+              <td>
+                <ul style="padding-left: 1.2em;">
+                  <li>Adopt a balanced, calorie-controlled diet</li>
+                  <li>Increase physical activity</li>
+                  <li>Set gradual weight loss goals</li>
+                </ul>
+              </td>
+            </tr>
+            <tr>
+              <td><strong>Blood Pressure</strong></td>
+              <td>High blood pressure often coexists with diabetes and can worsen complications by damaging blood
+                vessels.</td>
+              <td>
+                <ul style="padding-left: 1.2em;">
+                  <li>Reduce salt intake</li>
+                  <li>Manage stress</li>
+                  <li>Follow prescribed medications</li>
+                </ul>
+              </td>
+            </tr>
+            <tr>
+              <td><strong>Age</strong></td>
+              <td>Risk increases with age, especially after 45, due to metabolic changes and cumulative lifestyle
+                factors.</td>
+              <td>
+                <ul style="padding-left: 1.2em;">
+                  <li>Stay active as you age</li>
+                  <li>Get regular health checkups</li>
+                  <li>Maintain a healthy diet</li>
+                </ul>
+              </td>
+            </tr>
+            <tr>
+              <td><strong>Pregnancies</strong></td>
+              <td>Multiple pregnancies can increase risk due to hormonal changes and gestational diabetes history.</td>
+              <td>
+                <ul style="padding-left: 1.2em;">
+                  <li>Monitor glucose during/after pregnancy</li>
+                  <li>Maintain healthy weight post-pregnancy</li>
+                </ul>
+              </td>
+            </tr>
+            <tr>
+              <td><strong>Insulin</strong></td>
+              <td>Abnormal insulin levels indicate issues with insulin production or resistance, both key in diabetes
+                development.</td>
+              <td>
+                <ul style="padding-left: 1.2em;">
+                  <li>Follow medical advice for insulin management</li>
+                  <li>Adopt a healthy lifestyle</li>
+                </ul>
+              </td>
+            </tr>
+            <tr>
+              <td><strong>Diabetes Pedigree Function</strong></td>
+              <td>
+                Reflects genetic/family history. A higher value means a stronger inherited risk.
+                <br>
+                <span style="font-size:0.95em; color:#555;">
+                  <strong>How is it calculated?</strong><br>
+                  The Diabetes Pedigree Function (DPF) quantifies the likelihood of diabetes based on your family
+                  history. It considers the number of relatives with diabetes, their degree of relation (parents,
+                  siblings, etc.), and their ages. A higher DPF means more close relatives with diabetes and/or
+                  relatives diagnosed at a younger age, indicating a stronger genetic predisposition.
+                </span>
+              </td>
+              <td>
+                <ul style="padding-left: 1.2em;">
+                  <li>Inform your doctor about family history</li>
+                  <li>Be proactive with screenings</li>
+                  <li>Adopt preventive lifestyle habits</li>
+                </ul>
+              </td>
+            </tr>
+            <tr>
+              <td><strong>Skin Thickness</strong></td>
+              <td>Higher skinfold thickness can indicate increased body fat, which is linked to insulin resistance.</td>
+              <td>
+                <ul style="padding-left: 1.2em;">
+                  <li>Maintain a healthy body composition</li>
+                  <li>Engage in regular exercise</li>
+                </ul>
+              </td>
+            </tr>
+          </table>
+        </div>
         <div style="font-size: 0.98rem; color: #555;">
-          <strong>General Tips:</strong> Avoid smoking, limit alcohol, manage stress, and get regular medical checkups. Early lifestyle changes can significantly reduce your risk of developing diabetes, even if you have genetic predisposition.
+          <strong>General Tips:</strong> Avoid smoking, limit alcohol, manage stress, and get regular medical checkups.
+          Early lifestyle changes can significantly reduce your risk of developing diabetes, even if you have genetic
+          predisposition.
         </div>
       </div>
+
     </div>
   </footer>
 
   <script>
     // Handle accordion functionality
     document.querySelectorAll('.accordion-header').forEach(header => {
-      header.addEventListener('click', function() {
+      header.addEventListener('click', function () {
         const content = this.nextElementSibling;
         content.classList.toggle('active');
         const icon = this.querySelector('i');
@@ -677,7 +783,7 @@
         icon.classList.toggle('fa-chevron-up');
       });
     });
-    
+
     // TensorFlow.js TFLite model loading and prediction
     let tfliteModel = null;
     const modelUrl = "diabetes_firebase_model.tflite"; // Place model in same folder
@@ -688,14 +794,14 @@
         // Debug information to check what's available
         console.log("TF object:", typeof tf);
         console.log("tflite object:", typeof tflite);
-        
+
         // The TFLite library exposes a global 'tflite' object, not tfjs_tflite
         if (typeof tflite === 'undefined') {
           console.error("TFLite not found in global scope");
           document.getElementById("loading-msg").textContent = "Error: TFLite library not available. Check console for details.";
           return;
         }
-        
+
         // Use the correct method to load TFLite models
         tfliteModel = await tflite.loadTFLiteModel(modelUrl);
         document.getElementById("loading-msg").textContent = "Model loaded! Enter your health data and click 'Analyze Risk'";
@@ -723,45 +829,45 @@
       "Insulin", "BMI", "DiabetesPedigreeFunction", "Age"
     ];
 
-    document.getElementById("diabetes-form").addEventListener("submit", async function(e) {
+    document.getElementById("diabetes-form").addEventListener("submit", async function (e) {
       e.preventDefault();
       if (!tfliteModel) return;
 
       // Collect input values for original features
       const inputArr = featureOrder.map(id => parseFloat(document.getElementById(id).value));
-      
+
       // Generate the categorical features based on the input values
       // These match the feature engineering in the notebook
       const bmi = inputArr[5]; // BMI value
       const insulin = inputArr[4]; // Insulin value
       const glucose = inputArr[1]; // Glucose value
-      
+
       // BMI categories (match notebook categories)
       const bmiObesity1 = bmi > 29.9 && bmi <= 34.9 ? 1 : 0;
       const bmiObesity2 = bmi > 34.9 && bmi <= 39.9 ? 1 : 0;
       const bmiObesity3 = bmi > 39.9 ? 1 : 0;
       const bmiOverweight = bmi > 24.9 && bmi <= 29.9 ? 1 : 0;
       const bmiUnderweight = bmi < 18.5 ? 1 : 0;
-      
+
       // Insulin categories (match notebook definition)
       const insulinNormal = insulin >= 16 && insulin <= 166 ? 1 : 0;
-      
+
       // Glucose categories (match notebook categories)
       const glucoseLow = glucose <= 70 ? 1 : 0;
       const glucoseNormal = glucose > 70 && glucose <= 99 ? 1 : 0;
       const glucoseOverweight = glucose > 99 && glucose <= 126 ? 1 : 0;
       const glucoseSecret = glucose > 126 ? 1 : 0;
-      
+
       // Combine original features and categorical features
       const fullInputArr = [
         ...inputArr,
         bmiObesity1, bmiObesity2, bmiObesity3, bmiOverweight, bmiUnderweight,
         insulinNormal, glucoseLow, glucoseNormal, glucoseOverweight, glucoseSecret
       ];
-      
+
       console.log("Full input tensor shape:", [1, fullInputArr.length]);
       console.log("Input values:", fullInputArr);
-      
+
       // Model expects shape [1, 18] (8 original + 10 categorical features)
       const inputTensor = tf.tensor2d([fullInputArr], [1, 18], "float32");
 
@@ -769,90 +875,90 @@
       document.getElementById("loading-msg").textContent = "Analyzing your data...";
       document.getElementById("loading-msg").style.display = "block";
       document.getElementById("result").style.display = "none";
-      
+
       // Run inference - simplified to use TFLite directly without additional algorithms
       let outputTensor;
       try {
         // Direct TFLite inference without extra processing
         outputTensor = tfliteModel.predict(inputTensor);
         const probRaw = outputTensor.dataSync()[0];
-        
+
         // Debug information to understand model output
         console.log("TFLite raw prediction:", probRaw);
-        
+
         // DETECTED ISSUE: Model is returning 1 for all inputs
         // Implement a rule-based fallback since our model isn't working correctly
-        
+
         // Rule-based risk assessment (evidence-based medical guidelines)
         let ruleBasedRisk = 0;
-        
+
         // Major risk factors based on American Diabetes Association guidelines
         if (glucose > 125) ruleBasedRisk += 0.35; // High glucose is the strongest predictor
         if (bmi > 30) ruleBasedRisk += 0.2;      // Obesity is a significant risk factor
         if (inputArr[7] > 45) ruleBasedRisk += 0.15;     // Age increases risk - FIX: use inputArr[7] instead of undefined 'age'
         if (inputArr[0] > 4) ruleBasedRisk += 0.1; // Multiple pregnancies increase risk
         if (inputArr[6] > 0.5) ruleBasedRisk += 0.1; // Family history (diabetes pedigree)
-        
+
         // Minor risk factors
         if (bmi > 25 && bmi <= 30) ruleBasedRisk += 0.05; // Overweight
         if (glucose >= 100 && glucose <= 125) ruleBasedRisk += 0.1; // Prediabetic range
         if (insulin < 16 || insulin > 166) ruleBasedRisk += 0.05; // Abnormal insulin
-        
+
         // Log the rule-based assessment
         console.log("Rule-based risk assessment:", ruleBasedRisk.toFixed(2));
         // Add more detailed logging for debugging
         console.log("Risk factors breakdown:", {
-            "Glucose": glucose > 125 ? 0.35 : (glucose >= 100 ? 0.1 : 0),
-            "BMI": bmi > 30 ? 0.2 : (bmi > 25 ? 0.05 : 0),
-            "Age": inputArr[7] > 45 ? 0.15 : 0,
-            "Pregnancies": inputArr[0] > 4 ? 0.1 : 0,
-            "Family History": inputArr[6] > 0.5 ? 0.1 : 0,
-            "Insulin": (insulin < 16 || insulin > 166) ? 0.05 : 0
+          "Glucose": glucose > 125 ? 0.35 : (glucose >= 100 ? 0.1 : 0),
+          "BMI": bmi > 30 ? 0.2 : (bmi > 25 ? 0.05 : 0),
+          "Age": inputArr[7] > 45 ? 0.15 : 0,
+          "Pregnancies": inputArr[0] > 4 ? 0.1 : 0,
+          "Family History": inputArr[6] > 0.5 ? 0.1 : 0,
+          "Insulin": (insulin < 16 || insulin > 166) ? 0.05 : 0
         });
-        
+
         // Use the rule-based assessment instead of the broken model
         let prob = ruleBasedRisk;
-        
+
         // Add a note about the model issue
         const modelIssue = true; // Flag that we're using the fallback approach
-        
+
         // Threshold based on rule-based approach
         const threshold = 0.4; // Adjusted for rule-based approach
         const outcome = prob > threshold ? "High Risk" : "Low Risk";
-        
+
         // Display result with appropriate styling
         const resultElement = document.getElementById("result");
         resultElement.innerHTML = `
           <h3>${outcome} of Diabetes</h3>
-          <p>Probability: ${(prob*100).toFixed(1)}%</p>
+          <p>Probability: ${(prob * 100).toFixed(1)}%</p>
           ${modelIssue ? `
           <div style="margin-top: 0.5rem; font-size: 0.8rem; color: #666; background: #fff3cd; padding: 0.5rem; border-radius: 4px;">
             Note: Using evidence-based guidelines for assessment due to model limitations.
           </div>` : ''}
           <p style="margin-top: 1rem; font-size: 0.9rem;">
-            ${prob > threshold ? 
-              "The analysis suggests you may have a higher risk of diabetes. Consider consulting with a healthcare provider for further evaluation." : 
-              "The analysis suggests a lower risk of diabetes. Continue to maintain a healthy lifestyle to minimize risk factors."}
+            ${prob > threshold ?
+            "The analysis suggests you may have a higher risk of diabetes. Consider consulting with a healthcare provider for further evaluation." :
+            "The analysis suggests a lower risk of diabetes. Continue to maintain a healthy lifestyle to minimize risk factors."}
           </p>
           <p style="margin-top: 1rem; font-style: italic; font-size: 0.9rem;">
             Key risk factors in your profile: 
-            ${glucose > 125 ? "<strong>Elevated glucose</strong> (major), " : 
-              glucose >= 100 ? "<strong>Borderline glucose</strong>, " : ""}
-            ${bmi > 30 ? "<strong>High BMI</strong> (major), " : 
-              bmi > 25 ? "<strong>Overweight</strong>, " : ""}
+            ${glucose > 125 ? "<strong>Elevated glucose</strong> (major), " :
+            glucose >= 100 ? "<strong>Borderline glucose</strong>, " : ""}
+            ${bmi > 30 ? "<strong>High BMI</strong> (major), " :
+            bmi > 25 ? "<strong>Overweight</strong>, " : ""}
             ${insulin < 16 || insulin > 166 ? "<strong>Abnormal insulin</strong>, " : ""}
             ${parseFloat(document.getElementById("Age").value) > 45 ? "<strong>Age</strong> (major), " : ""}
             ${parseFloat(document.getElementById("DiabetesPedigreeFunction").value) > 0.5 ? "<strong>Family history</strong> (major)" : ""}
           </p>
         `;
-        
+
         // Add appropriate class for styling
         resultElement.className = "result " + (prob > 0.5 ? "positive" : "negative");
         resultElement.style.display = "block";
-        
+
         // Hide loading
         document.getElementById("loading-msg").style.display = "none";
-        
+
         // Clean up tensors
         outputTensor.dispose();
         inputTensor.dispose();
@@ -863,6 +969,27 @@
         document.getElementById("loading-msg").style.display = "none";
       }
     });
+
+    // DPF Calculator Tool Script
+    document.getElementById('dpf-calc-btn').onclick = function () {
+      const relatives = parseInt(document.getElementById('dpf-relatives').value) || 0;
+      const parent = parseInt(document.getElementById('dpf-parent').value) || 0;
+      const age = parseInt(document.getElementById('dpf-age').value) || 0;
+
+      // Simple estimation: more relatives, parent affected, and younger age at diagnosis increases DPF
+      // This is NOT the exact Pima formula, but a reasonable educational approximation
+      let dpf = 0.2 * relatives + 0.3 * parent + (age > 0 ? (age < 40 ? 0.3 : (age < 60 ? 0.15 : 0.05)) : 0);
+      dpf = Math.min(1, Math.round(dpf * 1000) / 1000); // Clamp to 1, round to 3 decimals
+
+      let riskLevel = '';
+      if (dpf < 0.3) riskLevel = 'Low genetic risk';
+      else if (dpf < 0.6) riskLevel = 'Moderate genetic risk';
+      else riskLevel = 'High genetic risk';
+
+      document.getElementById('dpf-result').innerHTML =
+        `Estimated DPF: <strong>${dpf}</strong> &mdash; <span style="color: ${dpf < 0.3 ? '#388e3c' : (dpf < 0.6 ? '#ff9800' : '#c62828')};">${riskLevel}</span>`;
+    };
   </script>
 </body>
+
 </html>
